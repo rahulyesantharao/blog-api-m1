@@ -4,33 +4,19 @@ const fs = require('fs');
 // Extension
 showdown.extension('targetlink', function() {
   return [{
-    type: 'lang',
-    regex: /\[((?:\[[^\]]*]|[^\[\]])*)]\([ \t]*<?(.*?(?:\(.*?\).*?)?)>?[ \t]*((['"])(.*?)\4[ \t]*)?\)\{\:target=(["'])(.*)\6}/g,
-    replace: function(wholematch, linkText, url, a, b, title, c, target) {
-
-      var result = '<a href="' + url + '"';
-
-      if (typeof title != 'undefined' && title !== '' && title !== null) {
-        title = title.replace(/"/g, '&quot;');
-        title = showdown.helper.escapeCharacters(title, '*_', false);
-        result += ' title="' + title + '"';
-      }
-
-      if (typeof target != 'undefined' && target !== '' && target !== null) {
-        result += ' target="' + target + '"';
-      }
-
-      result += ' rel="noopener noreferrer">' + linkText + '</a>';
-      return result;
+    type: 'html',
+    filter: function (text) {
+        return (''+text).replace(/<a\s+href=/gi, '<a target="_blank" rel="noopener noreferrer" href=');
     }
   }];
 });
 
 var sourcePath = 'md_posts/' + process.argv[2] + '.md';
 var destPath = 'html_posts/' + process.argv[2] + '.html';
-var conv = new showdown.Converter({extensions: ['targetlink']});
+var conv = new showdown.Converter({extensions: ['targetlink'], noHeaderId: true});
 try {
-  var text = fs.readFileSync(sourcePath);
+  var text = fs.readFileSync(sourcePath, 'utf8');
+  // console.log(text);
 } catch(err) {
   console.error(err);
 }

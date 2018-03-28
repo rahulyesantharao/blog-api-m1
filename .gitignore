@@ -164,3 +164,6 @@ typings/
 
 # next.js build output
 .next
+
+# Project specific
+post_converter/html_posts
