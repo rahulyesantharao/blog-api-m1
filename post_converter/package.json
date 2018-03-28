@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/rahulyesantharao/blog-api#readme",
   "dependencies": {
-    "showdown": "^1.8.6"
+    "mysql": "^2.15.0",
+    "showdown": "^1.8.6",
+    "slug": "^0.9.1"
   }
 }

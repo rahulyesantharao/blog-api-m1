@@ -1,3 +1,4 @@
+// PASS 1 CMD ARGUMENT: THE POST NAME (just name, no extension, no file path)
 const showdown = require('showdown');
 const fs = require('fs');
 
