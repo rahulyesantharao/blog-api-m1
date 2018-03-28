@@ -1,0 +1,22 @@
+{
+  "name": "post_converter",
+  "version": "1.0.0",
+  "description": "Converts blog posts from markdown to html",
+  "main": "md_converter.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rahulyesantharao/blog-api.git"
+  },
+  "author": "Rahul Yesantharao",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rahulyesantharao/blog-api/issues"
+  },
+  "homepage": "https://github.com/rahulyesantharao/blog-api#readme",
+  "dependencies": {
+    "showdown": "^1.8.6"
+  }
+}
