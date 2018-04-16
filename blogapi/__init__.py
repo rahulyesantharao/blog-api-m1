@@ -12,3 +12,8 @@ app.config.from_object(Config)
 db.init_app(app)
 init_api_routes(app)
 
+@app.after_request
+def after_request(response):
+  response.headers.add('Access-Control-Allow-Origin', '*')
+  response.headers.add('Access-Control-Allow-Methods', 'GET')
+  return response
