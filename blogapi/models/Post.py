@@ -1,5 +1,6 @@
 # pylint: disable=E1101
 from blogapi.models import db
+from datetime import datetime as dt
 
 class Post(db.Model):
   __tablename__ = 'posts'
@@ -15,7 +16,7 @@ class Post(db.Model):
   def serialize(self):
     return {
       "post_id": self.post_id,
-      "post_date": self.post_date,
+      "post_date": self.post_date.strftime('%B %e, %Y'),
       "post_title": self.post_title,
       "post_html": self.post_html,
       "author": self.author.serialize()
