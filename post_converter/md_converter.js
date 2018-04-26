@@ -1,4 +1,4 @@
-// PASS 1 CMD ARGUMENT: THE POST NAME (just name, no extension, no file path)
+// PASS 1 CMD ARGUMENT: THE POST NUMBER
 const showdown = require('showdown');
 const fs = require('fs');
 const path = require('path');
@@ -11,9 +11,9 @@ showdown.extension('targetlink', function() {
     }
   }];
 });
-
-var sourcePath = path.resolve(__dirname, 'md_posts/' + process.argv[2] + '.md');
-var destPath = path.resolve(__dirname, 'html_posts/' + process.argv[2] + '.html');
+var postNum = process.argv[2];
+var sourcePath = path.resolve(__dirname, 'md_posts/post' + postNum + '.md');
+var destPath = path.resolve(__dirname, 'html_posts/post' + postNum + '.html');
 var conv = new showdown.Converter({extensions: ['targetlink'], noHeaderId: true});
 try {
   var text = fs.readFileSync(sourcePath, 'utf8');
