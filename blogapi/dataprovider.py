@@ -1,5 +1,6 @@
 # pylint: disable=E1101
 from blogapi.models import Post
+from flask import abort
 
 def get_post_ids():
   ret = Post.query.with_entities(Post.post_id).all()
@@ -10,5 +11,10 @@ def get_post(id):
   return post
 
 def get_page(num, n):
-  posts = Post.query.paginate(num, n).items
+  if(num<1):
+    abort(404)
+  posts = Post.query.order_by(Post.post_id.desc()).offset((num-1)*n).limit(n).all()
+  if(len(posts) == 0):
+    abort(404)
+  #posts = Post.query.paginate(num, n).items
   return posts
