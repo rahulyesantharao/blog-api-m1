@@ -41,24 +41,21 @@ try {
 }
 
 // Create Other Post Attributes
-var date = mysql.raw('CURDATE()');
-var author_id = 1;
+var update_date = mysql.raw('CURDATE()');
 
-// Create Post Object
+// Create Post (Update) Object
 post = {
-  id: id,
   post_id: post_id,
-  date: date,
+  update_date: update_date,
   title: title,
   md: mdtext,
   html: htmltext,
-  author_id: author_id
 }
 
 // Save Post
-var query = connection.query('INSERT INTO posts SET ?', post, function(error, results, fields) {
+var query = connection.query('UPDATE posts SET ? WHERE id = ?', [post, id], function(error, results, fields) {
   if(error) throw error;
-  console.log('Solution: ', results[0].solution);
+  console.log('# Rows Changed: ', results.changedRows);
 });
 console.log(query.sql);
 
