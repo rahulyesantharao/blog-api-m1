@@ -25,8 +25,9 @@ connection.connect(function(err) {
 var id = process.argv[2];
 
 // Read Post Metadata
-var metadata = JSON.parse(fs.readFileSync('', 'utf8'));
-var postmeta = metadata[id]
+var metadatapath = path.resolve(__dirname, 'md_posts', 'metadata.json');
+var metadata = JSON.parse(fs.readFileSync(metadatapath, 'utf8'));
+var postmeta = metadata[id-1]
 var title = postmeta.title;
 var post_id = slug(title, {lower: true});
 
