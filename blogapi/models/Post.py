@@ -7,6 +7,7 @@ class Post(db.Model):
   id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
   post_id = db.Column('post_id', db.String(50), index=True, nullable=False)
   post_date = db.Column('date', db.Date, nullable=False)
+  post_update = db.Column('update', db.Date, nullable=True)
   post_title = db.Column('title', db.String(200), nullable=False)
   post_md = db.Column('md', db.Text, nullable=False)
   post_html = db.Column('html', db.Text, nullable=False)
@@ -14,9 +15,13 @@ class Post(db.Model):
   author = db.relationship("Author")
 
   def serialize(self):
+    pud = None
+    if(self.post_update is not None):
+      pud = self.post_update.strftime('%B %e, %Y')
     return {
       "post_id": self.post_id,
       "post_date": self.post_date.strftime('%B %e, %Y'),
+      "post_update": pud,
       "post_title": self.post_title,
       "post_html": self.post_html,
       "author": self.author.serialize()
