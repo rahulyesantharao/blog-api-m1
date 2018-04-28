@@ -58,7 +58,7 @@ post = {
 // Save Post
 var query = connection.query('INSERT INTO posts SET ?', post, function(error, results, fields) {
   if(error) throw error;
-  console.log('Solution: ', results[0].solution);
+  console.log(results);
 });
 console.log(query.sql);
 
