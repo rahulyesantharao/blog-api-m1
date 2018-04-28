@@ -15,14 +15,13 @@ class Post(db.Model):
   author = db.relationship("Author")
 
   def serialize(self):
-    pud = None
-    if(self.post_update is not None):
-      pud = self.post_update.strftime('%B %e, %Y')
-    return {
+    ret = {
       "post_id": self.post_id,
       "post_date": self.post_date.strftime('%B %e, %Y'),
-      "post_update": pud,
       "post_title": self.post_title,
       "post_html": self.post_html,
       "author": self.author.serialize()
     }
+    if(self.post_update is not None):
+      ret["post_update"] = self.post_update.strftime('%B %e, %Y')
+    return ret
