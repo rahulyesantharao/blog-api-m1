@@ -1,9 +1,8 @@
 Over the past year, I have slowly rebuilt my personal website (this one!) from scratch. Doing so let me learn and use tons of different technologies throughout the entire web stack. While I was building this site, I had to do tons of [Googling](https://fossbytes.com/do-best-programmers-use-google-stack-overflow-time/)/[StackOverflowing](https://www.quora.com/How-often-do-professional-programmers-use-Stack-Overflow), because all of the tutorials and resources I wanted to use were widely spread around the web. I wanted to take this chance to do a full writeup(/compilation of tutorials) on how to start from nothing and build up a full website, leaving (almost) no details out. Enjoy!
 
-### The Front End
 I built the front end of this site using only two external dependencies: React and React Router (no CSS frameworks!).
 
-#### Structure
+### Structure
 Web pages are traditionally created in [HyperText Markup Language](https://developer.mozilla.org/en-US/docs/Web/HTML), but I decided for this website that I would instead use [React](https://reactjs.org/), a self-described "JavaScript library for building user interfaces." A common complaint (or feature, according to some) about traditional web development is that the HTML (which provides the structure of the interface) and [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) (which provides interactivity) are separated from each other; however, these two components of the front end are inherently intertwined, as they are both providing the user interface. React addresses this point by providing a JavaScript framework in which the entire user interface is written as separate components that are interactive by nature. I would recommend going through the [React Tutorial](https://reactjs.org/tutorial/tutorial.html) to get started with React - also check out [my notes](https://rahulyesantharao.com/blog/posts/mit-splash-2017) on React!
 
 Most of the code is fairly common stateful React component management, so I won't go into it here; however, I did want to mention my animation component, which I made to manage the CSS page transitions on the site. I found that React Transition Group is fairly difficult to combine with React Router, so I instead built a [PageAnimationWrapper](https://github.com/rahulyesantharao/personal-website-m2/blob/master/src/components/common/PageAnimationWrapper.js) component to handle page transitions.
@@ -19,17 +18,17 @@ return (
 ```
 which calculates the CSS class, `page-1` and `page-0`, which are visible and invisible, respectively, and loads the page if the `show` state is set. The state is set through a prop, `mounted`, which is used to set/unset `show` every time it is updated. Check out the [code](https://github.com/rahulyesantharao/personal-website-m2/blob/master/src/components/common/PageAnimationWrapper.js) for the full details.
 
-#### Styling
+### Styling
 Web styling is done using [Cascading Style Sheets](https://developer.mozilla.org/en-US/docs/Web/CSS). However, directly writing CSS is extremely painstaking, so I opted instead to use a [CSS preprocessor](https://developer.mozilla.org/en-US/docs/Glossary/CSS_preprocessor): [SASS](https://sass-lang.com/). A CSS preprocessor is essentially a language that provides features that make writing CSS easier and compiles down to basic CSS - in particular, SASS includes for/if control statements, variables, and nested styling rules. To get started with styling websites, I recommend going through these [CSS Tutorials](https://developer.mozilla.org/en-US/docs/Learn/CSS) and then the [SASS Tutorials](https://sass-lang.com/guide).
 
 In order to make the structure of the website more manageable, I created my own grid system, based heavily on the grid system in [Bulma](https://bulma.io/). You can check it out [here](https://github.com/rahulyesantharao/personal-website-m2/blob/master/src/sass/layout/columns.scss) - it uses the for loops in SASS to concisely declare a responsive 12-column grid system. This file demonstrates the power of SASS to significantly improve the stying experience. Besides the grid, I also created a CSS [reset file](https://cssreset.com/what-is-a-css-reset/) that combines elements from several popular resets (see [here](https://github.com/rahulyesantharao/personal-website-m2/blob/master/src/sass/base/reset.scss)). Finally, on top of that I declared several basic site styles, making extensive use of SASS's variables in order to easily declare and use a consistent color/sizing scheme throughout the site.
 
-#### Routing
+### Routing
 The final component of Front-End web development is routing. This was traditionally a backend task, as, in the original client-server model, the client would request each URL from the server, and the server would respond with the appropriate resource based on the request. However, front end JavaScript libraries, such as React, make use of front-end routing to make the website faster for users.
 
 The original model of sending a request to the server for every single URL incurs a high network-cost for users that often outweighs the actual size of the page they are fetching - this is especially true for small websites such as mine. Thus, front-end routing allows the client to load the entire website in the initial page load (when https://rahulyesantharao.com/ is loaded) and simply uses JavaScript to change the view based on users navigating through the page. [React Router](https://reacttraining.com/react-router/) provides a clean, React-friendly way to declare routes in React projects. After learning React, it is definitely worth checking out [a tutorial](https://medium.com/@pshrmn/a-simple-react-router-v4-tutorial-7f23ff27adf) to get started with React Router.
 
-#### (Extra) Environment Setup
+### (Extra) Environment Setup
 It is easy enough to learn the various technologies I mentioned above individually; however, it is much harder to actually get a real React development environment set up, so I will walk through a minimal environment setup. It is worth noting that, instead of making your own setup, you can just use [Create React App](https://github.com/facebook/create-react-app), but it is fun to see all the different tools used.
 
 The key packages are Babel, Webpack, and Express.
