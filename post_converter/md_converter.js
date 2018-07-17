@@ -14,7 +14,7 @@ showdown.extension('targetlink', function() {
 var postNum = process.argv[2];
 var sourcePath = path.resolve(__dirname, 'md_posts/post' + postNum + '.md');
 var destPath = path.resolve(__dirname, 'html_posts/post' + postNum + '.html');
-var conv = new showdown.Converter({extensions: ['targetlink'], noHeaderId: true});
+var conv = new showdown.Converter({extensions: ['targetlink'], noHeaderId: false, simplifiedAutoLink: true});
 try {
   var text = fs.readFileSync(sourcePath, 'utf8');
   // console.log(text);
