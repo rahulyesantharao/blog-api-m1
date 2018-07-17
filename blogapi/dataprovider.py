@@ -3,7 +3,7 @@ from blogapi.models import Post
 from flask import abort
 
 def get_post_ids():
-  ret = Post.query.order_by(Post.post_date.desc()).with_entities(Post.post_id).all()
+  ret = Post.query.order_by(Post.post_date).with_entities(Post.post_id).all()
   return [r[0] for r in ret]
 
 def get_post(id):
