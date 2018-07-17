@@ -1,8 +1,14 @@
 [
   {
-    "title": "Example Title 1"
+    "title": "Hello, World!"
   },
   {
-    "title": "Example Title 2"
+    "title": "MIT Splash 2017!"
   },
+  {
+    "title": "Web Development, Part 1: The Front End"
+  },
+  {
+    "title": "Dual Booting Windows 10 and Arch Linux"
+  }
 ]
