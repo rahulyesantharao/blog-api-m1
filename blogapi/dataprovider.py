@@ -13,7 +13,7 @@ def get_post(id):
 def get_page(num, n):
   if(num<1):
     abort(404)
-  posts = Post.query.order_by(Post.post_id.desc()).offset((num-1)*n).limit(n).all()
+  posts = Post.query.order_by(Post.id.desc()).offset((num-1)*n).limit(n).all()
   if(len(posts) == 0):
     abort(404)
   #posts = Post.query.paginate(num, n).items
