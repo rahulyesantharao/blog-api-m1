@@ -14,8 +14,8 @@ def list_pages():
   #   return jsonify({'num-pages':0, 'pages':[]})
 
   page_array = list(paginator(posts))
-  # for p in range(len(page_array)):
-    # page_array[p] = list(reversed(page_array[p]))
+  for p in range(len(page_array)):
+    page_array[p] = list(reversed(page_array[p]))
   num_pages = len(page_array)
   return jsonify({'num_pages': num_pages, 'pages': page_array})
 
