@@ -14,7 +14,9 @@ Before beginning the dual boot process, I decided to first read about the boot p
 ## Windows Preparation
 First, just to be safe, it is important to completely back up any important files you have saved on your computer. 
 
-Then, open up *Disk Management* (open Command Prompt as Administrator and type in `diskmgmt.msc`) (see Figures 1 and 2) and create space for the Linux installation. There should be at least 3 basic partitions: EFI System Partition, OEM, and Windows (the main partition that takes most of the space). In addition, there may be an extra recovery partition - beyond the first 3, you can choose whether or not to delete the extra partitions (consider the warranty and other aspects specific to your computer, I chose to leave my recovery partition). Choose the large Windows partition, right click it, and choose shrink - the amount by which you shrink is the amount of space you will have for your Linux installation. This new space will show up as unpartitioned space - this is what we want.
+Then, open up *Disk Management* (open Command Prompt as Administrator and type in `diskmgmt.msc`) (see the ) and create space for the Linux installation. There should be at least 3 basic partitions: EFI System Partition, OEM, and Windows (the main partition that takes most of the space). In addition, there may be an extra recovery partition - beyond the first 3, you can choose whether or not to delete the extra partitions (consider the warranty and other aspects specific to your computer, I chose to leave my recovery partition). Choose the large Windows partition, right click it, and choose shrink - the amount by which you shrink is the amount of space you will have for your Linux installation. This new space will show up as unpartitioned space - this is what we want.
+
+![Disk Management](https://rahulyesantharao.com/resources/img/diskmgmt.png "Disk Management Setup")
 
 Now, we will prepare for the actual Linux boot process. First, [**turn off Windows Fast Startup**](https://www.tenforums.com/tutorials/4189-turn-off-fast-startup-windows-10-a.html). Then, hold down shift and press the restart button to open the troubleshooting menu. Choose Troubleshoot > Advanced Options > UEFI Firmware Settings. Then, on restart, the UEFI options will open. Disable Intel Fast Boot and Secure Boot (details [here](https://wiki.archlinux.org/index.php/Dual_boot_with_Windows#UEFI_Secure_Boot)).
 
@@ -223,7 +225,11 @@ $ passwd <username> # Set password
 ```
 You should also set up [`sudo`](https://wiki.archlinux.org/index.php/sudo) and use `visudo` to allow the `wheel` group to use sudo.
 
-Restart one more time, and make sure that Windows is listed as an option in the initial GRUB boot window. Choose to boot into it and make sure everything works. Notably, the clock will be off because of the hardware clock settings in Linux - to remedy this, see [here](https://wiki.archlinux.org/index.php/time#UTC_in_Windows). You will have to use `regedit` to add the `DWORD` `HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation\RealTimeIsUniversal` with value `1` to the registry. In addition, turn off Internet time synchronization in `Control Panel > Clock and Region > Date and Time > Internet Time`. Reboot to put these changes into effect.
+Restart one more time, and make sure that Windows is listed as an option in the initial GRUB boot window. Choose to boot into it and make sure everything works. Notably, the clock will be off because of the hardware clock settings in Linux - to remedy this, see [here](https://wiki.archlinux.org/index.php/time#UTC_in_Windows). You will have to use `regedit` to add the `DWORD` 
+```HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation\RealTimeIsUniversal```
+with value `1` to the registry. In addition, turn off Internet time synchronization in
+```Control Panel > Clock and Region > Date and Time > Internet Time```.
+Reboot to put these changes into effect.
 
 Check back for Part 2 to read about basic system configuration, including (but not limited to):
  - NVIDIA drivers
