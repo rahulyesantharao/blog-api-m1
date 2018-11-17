@@ -88,7 +88,7 @@ This encoding brings up a new issue, however: we must actually save and transmit
 
 Directly saving every single Huffman code for every character of the alphabet would be incredibly space-inefficient, and would render meaningless any space savings we were able to make through LZ77. Because of this, DEFLATE uses a specific ordering convention for its Huffman codes. In particular, 
 
-> -All codes of a given bit length have lexicographically
+> - All codes of a given bit length have lexicographically
 consecutive values, in the same order as the symbols
 they represent;<br/>
 > - Shorter codes lexicographically precede longer codes.
