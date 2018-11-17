@@ -1,10 +1,10 @@
 The term gzip refers to both the common UNIX command line utility for file compression as well as the file format that it uses to store compressed data files. The utility itself is based on the DEFLATE algorithm, detailed in [RFC 1951](https://www.ietf.org/rfc/rfc1951.txt), and the file format is detailed in [RFC 1952](https://www.ietf.org/rfc/rfc1952.txt). According to the RFC, the purpose of DEFLATE is to give a lossless compression format that
 
-  > Is independent of CPU type, operating system, file system, and character set, and hence can be used for interchange; <br/>
-  > Can be produced or consumed, even for an arbitrarily long sequentially presented input data stream, using only an a priori bounded amount of intermediate storage, and hence can be used in data communications or similar structures such as Unix filters; <br/>
-  > Compresses data with efficiency comparable to the best currently available general-purpose compression methods, and in particular considerably better than the "compress" program; <br/>
-  > Can be implemented readily in a manner not covered by patents, and hence can be practiced freely; <br/>
-  > Is compatible with the file format produced by the current widely used gzip utility, in that conforming decompressors will be able to read data produced by the existing gzip compressor. <br/>
+  > - Is independent of CPU type, operating system, file system, and character set, and hence can be used for interchange; <br/>
+  > - Can be produced or consumed, even for an arbitrarily long sequentially presented input data stream, using only an a priori bounded amount of intermediate storage, and hence can be used in data communications or similar structures such as Unix filters; <br/>
+  > - Compresses data with efficiency comparable to the best currently available general-purpose compression methods, and in particular considerably better than the "compress" program; <br/>
+  > - Can be implemented readily in a manner not covered by patents, and hence can be practiced freely; <br/>
+  > - Is compatible with the file format produced by the current widely used gzip utility, in that conforming decompressors will be able to read data produced by the existing gzip compressor. <br/>
 
 We will cover the entire DEFLATE algorithm at a very detailed level to get a good understanding of compression methodology.
 
@@ -24,7 +24,7 @@ As it turns out, the problem of finding an optimal binary encoding for an alphab
 
 The above discussion makes a crucial simplifying assumption, which allows for the optimality claim. In particular, it assumes that we are interested in a single-character binary encoding for the alphabet. However, if we remove this restriction, we are able to make far more efficient encodings because specific sequencies of characters may repeat several times throughout the text (for example, in English, it is often beneficial to create a single code for the sequence "qu" rather than for "q" and "u" separately). This problem was also solved to optimality (in an information theoretical sense - the expected encoded length tends to the entropy bound) by [Abraham Lempel](https://en.wikipedia.org/wiki/Abraham_Lempel), [Yaakov Ziv](https://en.wikipedia.org/wiki/Yaakov_Ziv), and [Terry Welch](https://en.wikipedia.org/wiki/Terry_Welch) in 1984 in their LZW compression algorithm. There is in fact an entire family of LZ compression techniques; two earlier versions were [LZ77 and LZ78](https://en.wikipedia.org/wiki/LZ77_and_LZ78), published by Lempel and Ziv in 1977 and 1978, respectively. Read about LZW encoding [here](http://web.mit.edu/6.02/www/s2012/handouts/3.pdf) (an exceptional resource) and [here](https://www2.cs.duke.edu/csed/curious/compression/lzw.html).
 
-Interestingly, there were some patent controversies surrounding the LZW compression algorithm throughout the late 1980s and 1990s, as compression techniques were fleshed out into standard utilities, and the computing community quickly ended up using the LZ77 based DEFLATE algorithm for general purpose data compression. The LZ77 algorithm is fairly similar to the LZW compression algorithm, but it keeps a sliding window for the purpose of dictionary building, rather than allowing matches from the entire preceding text. You can read about the entire LZ compression family, and the comparisons between different variations, [here](https://cs.stanford.edu/people/eroberts/courses/soco/projects/data-compression/lossless/lz77/variations.htm).
+Interestingly, there were some patent controversies surrounding the LZW compression algorithm throughout the late 1980s and 1990s (see bullet point 4 in the DEFLATE goals, listed above). Thus, as compression techniques were fleshed out into standard utilities, the computing community quickly ended up using the LZ77 based DEFLATE algorithm for general purpose data compression. The LZ77 algorithm is fairly similar to the LZW compression algorithm, but it keeps a sliding window for the purpose of dictionary building, rather than allowing matches from the entire preceding text. You can read about the entire LZ compression family, and the comparisons between different variations, [here](https://cs.stanford.edu/people/eroberts/courses/soco/projects/data-compression/lossless/lz77/variations.htm).
 
 ## [DEFLATE](https://en.wikipedia.org/wiki/DEFLATE)
 
@@ -34,7 +34,7 @@ The DEFLATE algorithm provides a specification that uses LZ77 and Huffman encodi
 
 The DEFLATE algorithm consists roughly of 3 steps: first, the original data is encoded using the LZ77 algorithm. Next, the LZ77 encoded data is encoded using Huffman coding in order to optimize the representation of this data. Finally, the actual descriptions of the Huffman codes are themselves Huffman coded to optimize the storage of these Huffman codes. The algorithm also defines three alphabets, the so-called "literal," "distance," and "code-length" alphabets, to represent specific portions of the data, as explained below.
 
-### Step 1: LZW
+### Step 1: LZ77
 
 As mentioned above, in the first step, the original text data is encoded using the LZ77 algorithm described in the previous section. In order to represent this encoding, DEFLATE uses a special pair of predefined alphabets, given before. To understand them, we first have to remember the output of LZ77: the final, compressed data will consist of three types of values: either the literal byte value (`char`) that should be present at a given spot, or a pair of the form `(length, distance)`, indicating that `length` bytes should be repeated, starting from `distance` bytes previous. The DEFLATE algorithm combines the first two of these value types, literal (byte value) and length, into a single alphabet of 285 characters, specified above as the "literal" alphabet. It also defines a second "distance" alphabet (also above) of 29 characters to represent the distance values. Thus, the DEFLATE algorithm first runs LZ77 and saves the encoded data in the given alphabets. As an example, the file
 ```
@@ -66,10 +66,12 @@ Hello World
 would be encoded as
 ```
 // Symbolic Representation
-'H' 'e' 'l' 'l' 'o' ' ' 'W' 'o' 'r' 'l' 'd' '\n' (258, 12) (5, 12) '\n' 'EOB'
+'H' 'e' 'l' 'l' 'o' ' ' 'W' 'o' 'r' 'l'
+'d' '\n' 'H' (258, 12) (5, 12) '\n' 'EOB'
 
 // Encoding in Literal/Distance Alphabets
-72; 101; 108; 108; 111; 32; 87; 111; 114; 108; 100; 10; 72; (285, 6(+3)); (259, 6(+3)); 10; 256
+72; 101; 108; 108; 111; 32; 87; 111; 114; 108;
+100; 10; 72; (285, 6(+3)); (259, 6(+3)); 10; 256
 ```
 
 As we see, LZ77 takes massive advantage of the repetition in the data, and it only encodes the string once in its literal form, and then it simply indicates that the previous 12 characters should be repeated several times. 
@@ -86,10 +88,10 @@ This encoding brings up a new issue, however: we must actually save and transmit
 
 Directly saving every single Huffman code for every character of the alphabet would be incredibly space-inefficient, and would render meaningless any space savings we were able to make through LZ77. Because of this, DEFLATE uses a specific ordering convention for its Huffman codes. In particular, 
 
-> All codes of a given bit length have lexicographically
+> -All codes of a given bit length have lexicographically
 consecutive values, in the same order as the symbols
 they represent;<br/>
-> Shorter codes lexicographically precede longer codes.
+> - Shorter codes lexicographically precede longer codes.
 
 For example, if we are encoding A, B, C, D as 00, 011, 1, 010, we can keep the same code lengths (which are the only part that actually represent the relative frequencies of the characters and thus the space savings) but follow the given rules by instead using the codes 10, 110, 0, 111. The purpose of this rule is that we can specify the entire Huffman tree simply by giving the consecutive code lengths. For example, in our example, it is enough to say (2, 3, 1, 3) to specify the entire Huffman coding (try it out: there is only one way to follow the given rules and use the given code lengths). In particular, we can use the following code to take a set of lengths and convert them to a Huffman tree (see the repo at the end for the full function, `build_tree()`).
 
