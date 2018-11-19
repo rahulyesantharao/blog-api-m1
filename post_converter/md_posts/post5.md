@@ -1,3 +1,5 @@
+(I taught this class at MIT Splash 2018; see the presentation [here](https://rahulyesantharao.com/blog-posts/assets/splash18_gzip.pdf "here"))
+
 The term gzip refers to both the common UNIX command line utility for file compression as well as the file format that it uses to store compressed data files. The utility itself is based on the DEFLATE algorithm, detailed in [RFC 1951](https://www.ietf.org/rfc/rfc1951.txt), and the file format is detailed in [RFC 1952](https://www.ietf.org/rfc/rfc1952.txt). According to the RFC, the purpose of DEFLATE is to give a lossless compression format that
 
   > - Is independent of CPU type, operating system, file system, and character set, and hence can be used for interchange; <br/>

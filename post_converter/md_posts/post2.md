@@ -17,6 +17,6 @@ Overall, teaching was pretty fun after the few hiccups in setup because explaini
 ### A Class
 As promised, here is the actual tutorial! Hopefully you found my ramblings above interesting, or at least short enough to skip over. One thing that becomes quickly evident when trying to teach/learn web development is that it's really useful (maybe even necessary) to have a pretty good grasp over basic JavaScript and (importantly) ES6. So, before going over this tutorial, it might be a good time to head over to [the MDN tutorials](https://developer.mozilla.org/en-US/docs/Web/JavaScript/A_re-introduction_to_JavaScript "the MDN tutorials") and refresh your JavaScript.
 
-Check out the PowerPoint [here](https://rahulyesantharao.com/blog-posts/assets/react-tutorial.pdf "here") and follow along at [the Facebook React Tutorial](https://reactjs.org/tutorial/tutorial.html "the Facebook React Tutorial").
+Check out the PowerPoint [here](https://rahulyesantharao.com/blog-posts/assets/splash17_react.pdf "here") and follow along at [the Facebook React Tutorial](https://reactjs.org/tutorial/tutorial.html "the Facebook React Tutorial").
 
 Check back soon for a more detailed tutorial!
